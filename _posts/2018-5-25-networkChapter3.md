@@ -9,13 +9,13 @@ title: 2018-5-25 Network Chapter3 HTTP메세지와 정보
 - 리퀘스트 측에서 보내는 메세지를 리퀘스트메시지, 리스폰스 측에서 보내는 메세지를 리스폰스메세지라고 한다.
 - HTTP메세지를 구분하면 메세지 헤더와 메세지 바디로 구성이 되어있다.
 
-![](/Users/jaeyeonkim/Downloads/3-1.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-1.jpg?raw=true)
 
 - 리퀘스트라인 : 사용하는 메소드와 레퀘스트 URI와 HTTP버전이 포함된다.
 - 상태라인 : 상태코드와 설명, HTTP버전이 포함
 - 헤더필드 : 리퀘스트와 리스폰스의 여러 조건과 속성 등을 나타내는 헤더필드가 포함된다. 헤더필드에는 일반헤더필드, 리퀘스트헤더필드, 리스폰스헤더필드, 엔티티헤더필드 총 4가지의 헤더필드가 있다.
 
-![](/Users/jaeyeonkim/Downloads/3-2.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-2.jpg?raw=true)
 
 ### 인코딩
 
@@ -28,11 +28,11 @@ title: 2018-5-25 Network Chapter3 HTTP메세지와 정보
 
 ##### HTTP메시지 바디의 역할은 리퀘스트와 리스폰스에 관한 엔티티바디를 운반하는 일이다.
 
-![](/Users/jaeyeonkim/Downloads/3-3.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-3.jpg?raw=true)
 - 파일을 첨부하는 경우 용량을 줄이기 위해서 압축을 하는데, 이런 전송방법을 콘텐츠코딩이라고 한다.
 - 콘텐츠코딩은 엔티티의 정보를 유지한 상태로 압축을 한다.
 
-![](/Users/jaeyeonkim/Downloads/3-4.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-4.jpg?raw=true)
 
 - 엔티티 바디를 분할하는 기능을 청크코딩이라고 한다.
 - 청크코딩은 엔티티 바디를 청크(덩어리)로 분해를 한다.
@@ -87,7 +87,7 @@ Content-Range: bytes 7000-7999/8000
 ##### 일부분만 받는 레인지리퀘스트
 
 
-![](/Users/jaeyeonkim/Downloads/3-5.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-5.jpg?raw=true)
 
 - 예전에는 인터넷의 속도가 느려서 다운로드 중간에 끊기면 처음부터 다시 다운로드를 받아야했다. 이러한 문제를 해결하기 위해서 리줌(resume)이라는 기능이 생겼다. 리줌을 통해서 이전에 다운로드를 한 곳에서부터 다운로드를 재개할 수 있다.
 - 이 기능을 구현하기 위해서 엔티티의 범위를 지정해서 다운로드를 해야한다.
@@ -96,7 +96,7 @@ Content-Range: bytes 7000-7999/8000
 
 ### 콘텐츠 네고에이션
 
-![](/Users/jaeyeonkim/Downloads/3-6.jpg)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/network/chapter3/3-6.jpg?raw=true)
 
 - 같은 콘텐츠이지만 여러개의 페이지를 지닌 웹페이가 있다. 이러한 경우는 언어가 다를 때 많이 사용한다.
 - 브라우저가 같은 URI에 액세스할 때에 각각 영어판, 한국어판 웹페이지를 표시한다. 이와 같은 구조를 콘텐츠 네고시에이션이라고 한다.
