@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2018-6-6 Collection Framework TreeSet
+title: 2018-6-6  Collection Framework TreeSet
 ---
 
 ### TreeSet\<E> 클래스
