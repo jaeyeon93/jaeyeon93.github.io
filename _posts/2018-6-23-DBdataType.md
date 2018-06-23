@@ -1,12 +1,17 @@
+---
+layout: post
+title: 2018-6-23 DB개론 - 테이블생성
+---
+
 Mysql Create Table
-----
+==
 
 ```
 insert into score values('jimmy', 60, '2018-6-5'), ('pobi',100,'2018-6-5');
 ```
 - 2개의 데이터를 한꺼면에 볼 수 있다-
 
-![](/Users/jaeyeonkim/Desktop/db_dataType.png)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/database/db_dataType.png?raw=true)
 
 - char는 고정이기때문에 Char(8)에서는 글자가 1개인 경우에도 100칸을 차지를 한다.
 - varchar(8)에서는 가변길이이다.
