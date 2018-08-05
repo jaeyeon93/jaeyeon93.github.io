@@ -1,3 +1,8 @@
+---
+layout: post
+title: 2018-8-4 퀵정렬
+---
+
 Quick Sort
 ----
 
