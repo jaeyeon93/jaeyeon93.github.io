@@ -1,0 +1,106 @@
+---
+layout: post
+title: 2018-8-9 최범균의 스프링 챕터2
+---
+
+최범균스프링
+===
+
+### chapter2
+
+```
+//src/main/resources/applicatioContext.xml
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="greeter" class="chapter2.Greeter">
+        <property name="format" value="%s, 안녕하세요!"> </property>
+    </bean>
+
+</beans>
+```
+- 여기서 마지막에 bean태그가 가장 중요하다.
+- 이 부분이 한 개 객체를 생성하고 초기화하는 것에 대한 내용을 담고있다. 스프링이 생성하는 객체를 빈(Bean)이라고 한다.
+- bean태그의 속성은 다음과 같다. id : 빈객체를 구분할 때 사용하는 이름, class : 빈객체를 생성할 때 사용할 클래스
+- 스프링은 \<property> 태그를 처리할 때, name속성에 지정한 값의 첫 글자를 대문자로 변환한 뒤에 일치하는 set메서드를 사용한다.
+- 위의 프로퍼티에서 name의 값은 format인데, setFormat을 사용을 해야한다.
+
+```
+//Main
+public class Main {
+    public static void main(String[] args) {
+        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationContext.xml");
+        Greeter g = ctx.getBean("greeter", Greeter.class);
+        String msg = g.greet("스프링");
+        System.out.println(msg);
+        ctx.close();
+    }
+}
+
+```
+
+- GenericXmlApplicatinoContext 클래스는 XML 파일로부터 설정 정보를 읽어와 빈 객체를 생성하고 관리하는 기능을 제공한다.
+- getBean()메소드는 빈객체를 검색할 때 사용이 된다. getBean()의 첫번째 parameter는 \<bean> 프로퍼티의 id값이고, 두번째 파라미터는 검색할 빈 객체의 타입이다.
+
+### 싱글톤패턴
+```
+public class Main {
+    public static void main(String[] args) {
+        GenericXmlApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationContext.xml");
+        Greeter g1 = ctx.getBean("greeter", Greeter.class);
+        Greeter g2 = ctx.getBean("greeter", Greeter.class);
+        System.out.println("(g1 == g2) = " + (g1 == g2));
+        ctx.close();
+    }
+}
+//result
+(g1 == g2) = true
+
+```
+- 스프링은 별도 설정을 하지 않으면 한개의 빈 객체만 생성한다.
+
+
+chapter3 스프링 DI
+==
+
+#### 한 클래스가 다른 클래스의 메서드를 실행할 때, 이를 의존한다고 표현을 한다.
+
+```
+public class MemberRegisterService {
+	private MemberDao memberDao = new MemberDao();
+}
+```
+- 위의 경우 MemberRegisterService객체에서 MemberDao객체를 생성하므로 MemberRegisterService가 MemberDao에 의존한다고 이야기를 한다.
+
+#### 의존은 변경에 의해 영향을 받는 관계를 의미를 한다. MemberDao insert()메소드의 이름을 insertMember()라고 변경을 하면, 이 메서드를 사용하는 MemberRegisterService 클래스의 소스코드도 함께 변경이 된다.
+
+- 클래스 내부에서 의존관계를 이용을 하는것이 쉽지만, 유지보수가 굉장히 어려워진다.
+
+### DI를 통한 의존 처리
+
+- DI(의존주입)은 의존하는 객체를 직접생성하지 않고, 의존 객체를 전달받는 방식을 말한다.
+
+```
+public class MemberRegisterService {
+    private MemberDao memberDao;
+
+    public MemberRegisterService(MemberDao memberDao) {
+        this.memberDao = memberDao;
+    }
+
+    public void regist(RegisterRequest req) {
+        Member member = memberDao.selectByEmail(req.getEmail());
+        if (member != null)
+            throw new FileAlreadyExistsException("dup email " + req.getEmail());
+        Member newMember = new Member(
+                req.getEmail(), req.getPassword(), req.getName(), new Date());
+        memberDao.insert(newMember);
+    }
+}
+
+```
+- 생성자를 통해서 의존전달을 받는다.
+- 생성자를 통해 MemberRegisterService가 의존하고 있는 MemberDato객체를 주입받는 것이다. 객체를 직접 구하지 않고 생성자를 통해 전달을 받기때문에, DI패턴을 따른다고 할 수 있다.
