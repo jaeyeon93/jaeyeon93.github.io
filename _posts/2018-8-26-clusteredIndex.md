@@ -101,7 +101,7 @@ mysql> select count(*) from user where last_visit > '2018-6-1';
 - 리프노드 : 실제레코드(데이터페이지)
 - 키 : PrimaryKey
 
-![](/Users/jaeyeonkim/Desktop/clusteredIndex.png)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/database/clusteredIndex.png?raw=true)
 
 
 ### Secondary Index
