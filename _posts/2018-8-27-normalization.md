@@ -9,7 +9,7 @@ title: 2018-8-27 DB정규화(1)
 
 ### DB설계 다시보기
 
-![](/Users/jaeyeonkim/Desktop/dbNormalization.png)
+![](https://github.com/jaeyeon93/jaeyeon93.github.io/blob/master/images/database/dbNormalization.png?raw=true)
 
 
 #### 잘 설계된 테이블이란? 다른테이블(엔티티)의 애트리뷰트 값을 읽어오는 것은 외래키의 참조를 통해서만 가능하다.
