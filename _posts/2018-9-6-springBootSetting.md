@@ -1,3 +1,8 @@
+---
+layout: post
+title: 2018-9-6 SpringBoot 설정
+---
+
 스프링부트 자동설정
 -
 
