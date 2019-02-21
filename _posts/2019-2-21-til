@@ -1,0 +1,268 @@
+JS
+=
+
+## DOM
+
+- DOM : Document Object Model로 문서객체모델로 이야기를 할 수 있다. 문서객체란 무엇일까?
+- 문서객체 : \<html>, \<body>와 같은 html문서의 태그들을 JS가 이용할 수 있는 객체(Object)로 만들면 그것을 문서객체라고 한다. (그러면 html문서의 태그들이 객체에 담긴 상태를 의미하나는건가??)
+- Model은 모형,주형,모듈이라는 의미가 있는데 문서객체를 '인식하는방식'으로 해석할 수 있다.
+- DOM은 넓은 의미로 웹브라우저가 HTML페이지를 인식하는 방식을 의미한다. 좁은 의미로는 document객체와 관련된 객체의 집합을 의미한다.
+
+## 객체
+- JS에서는 boolean, number, string, undefined, null을 제외한 나머지가 모두 객체이다.
+- 위의 3가지 boolean, number, string 기본타입역시 객체처럼 다룰 수 있기때문에 undefined와 null을 제외한 모든것을 객체로 다룰 수 있다.
+- 함수도 객체로 취급이 된다. JS는 함수가 일급객체(First class Object)로 취급이 된다.
+- 일급객체란? 프로그래밍 언어에서 함수를 값으로 다룰 수 있는것이다. 즉, 함수를 변수에 담아 원할 때 호출을 할 수 있다. 변수의 특성인 함수인자로 전달가능하고 리턴으로도 가능하다.
+- java에서는 클래스의 인스턴스를 생성하는 과정에서 객체가 생성이되지만, JS는 클래스라는 개념이 없고, 객체리터럴이나 생성자 함수 등 별도의 생성방식이 존재를 한다.
+#### JS는 객체를 생성하는 크게 3가지 방식이 존재한다. 하나는 기본제공 Object()객체 생성자 함수를 이용하는 방법, 객체리터럴을 이용하는 방법, 다른 하나는 생성자 함수를 이용하는 방법이다.
+
+#### Object() 생성자함수 이용
+
+```
+// Object()를 이용해서 foo 빈 객체 생성
+var foo = new Object();
+
+// foo객체 프로퍼티 생성
+foo.name = 'foo';
+foo.age = 30;
+foo.gender = 'male';
+
+console.log(typeof foo));
+console.log(foo);
+// result
+object
+{ name: 'foo', age: 30, gender: 'male' }
+
+```
+#### 객체리터럴방식
+
+```
+// 객체리터럴 방식으로 foo
+
+let foo = {
+    name : 'foo',
+    age : 30,
+    gender : 'male'
+};
+
+console.log(typeof foo);
+console.log(foo);
+//result
+object
+{ name: 'foo', age: 30, gender: 'male' }
+
+```
+#### 객체프로퍼티 읽고 쓰기
+- 객체의 프로퍼티에 접근하려면 2가지 방법이 있다.
+- 대괄호([])표기법
+- 마침표(.)표기법
+
+
+
+
+
+### 1급시민
+
+#### 1급시민의 조건
+1. 변수에 담을 수 있다
+2. 인자로 전달가능하다
+3. 반환값(리턴)으로 전달할 수 있다
+
+#### 1급객체 : 1급객체라는 것은 특정 언어에서 객체를 1급시민으로 취급한다. 위의 3가지 조건이 충족된다.
+
+#### 1급함수 : 1급객체 뿐만 아니라 1급함수도 있다. 함수를 1급시민으로 취급하는것이다. 이는 런타임생성이 가능하다, 익명으로 생성이가능하다
+
+### JS에서 함수가 1급 객체인 것이 중요한 이유
+- 함수가 1급 객체여서 주는 가장 큰 장점은 바로 고차함수(high order function)이 가능하다. JS의 each, filter, map, sort등의 함수들이 위의 예시이다.? 인자로 목적에 맞는 함수를 하나 넘겨주면 아주 쉽게 처리가 된다.
+- 1급객체가 JS의 클로저(closure)와 만나면 또 하나의 장점이 있다. JS함수는 생성될 당시의 Lexical Environment를 기억하게 되는데, 함수를 주고받게 되면 이 Lexical Environment도 함께 전달이 된다. 이것을 이용해서 커리(currying)과 메모이제이션(memoization)이 가능하다.
+
+
+### JS커링
+- 커링이란 다중인자를 받는 함수를 단일 인자 함수열로 만드는 것을 말한다.
+- 어떤 함수를 호출할 때 대부분의 매개 변수가 항상 비슷하다면 커링을 사용할 만한 후보라고 할 수 있다. 매개변수 일부를 적용하여 새로운 함수를 동적으로 생성하면 이 동적 생성된 함수는 반복적으로 사용되는 매개변수를 내부적으로 저장하여, 매번 인자를 전달받지 않아도 원본함수가 기대하는 기능을 채워주게 된다.
+```
+['11','11','11','11'].map(parseInt);
+//result
+[11,11,11,11]이 아니라 [11,NaN, 3,4]라는 값이 나온다
+```
+- 왜 위와 같은 값이 나오는걸까? 이해하려면 parseInt함수의 인터페이스부터 봐야한다. parseInt(string, radix)형태로 사용된다. 변환한 정수 문자열 string과 진수를 나타내는 radix변수를 인자로 받는데 2와 36범위로 한정한다.
+- 맵함수는 전달인자로 콜백함수를 넣을 수 있다. 콜백함수는 function callback(currentValue, index, array)형태로 사용한다.
+- 위 코드에서 맵함수의 콜백함수로 parseInt를 넘겨주었다. 따라서 parseInt의 파라미터는 String에 currentValue가 오고 radix에 index가 온다.
+
+```
+parseInt('11', 0); // 11,
+parseInt('11', 1); // NaN
+parseInt('11', 2); // 3
+parseInt('11', 3); // 4
+```
+- 원인은 parseInt의 두번째 파라미터값에 진수 값을 잘못 전달한 탓이다. 원래 의도는 parseInt에 문자열만 전달하고 두번째 파라미터는 생략해서 10진법 결과를 얻으려고 했을것이다.
+#### 여기서 커링의 필요성이 등장한다.
+- 다중인자를 받는 함수를 단일인자만 받는 함수열로 변경하는 것이 커링이다. 2개의 인자를 받는 parseint 함수를 1개 인자만 받도록 고정하는 것이 커링이다.
+
+```
+
+const curry = fun => arg => fun(arg);
+
+curry(parseInt('11'));
+curry(parseInt('11',2));
+
+let arr = ['11','11','11','11'].map(curry(parseInt));
+console.log(arr);
+```
+- 함수 fun을 인자로 받고, arg를 인자로 받는 함수를 반환한다. 반환된 함수를 실행하면 클로져로 캡쳐된 fun에 인자로 받은 arg를 전달하여 실행하고 그 결과를 반환한다.
+- curry(parseInt)는 두개의 인자를 받는 parseInt함수를 하나의 인자만 받도록 강제하는 함수를 반환한다.
+
+
+### 메모이제이션(Memoization)
+
+- JS에서 반복적으로 계산되는 함수는 메모이제이션패턴을 사용해서 구현한다.
+- 계산 결과를 저장해 놓아 이후에 다시 계산할 필요없이 사용하도록 저장해놓은 캐싱과 같은 기능 메모이제이션이라고 합니다.
+
+
+## 클로저
+
+- 클로저는 독립적인(자유)변수를 가리키는 함수이다. 또는 클로저 안에 정의된 함수는 만들어진 환경을 '기억한다'.
+- 흔히 함수내에서 함수를 정의하고 사용하면 클로저라고 한다. 하지만 대개는 정의한 함수를 리턴하고 사용은 바깥에서 하게된다.
+
+```
+function getClosure() {
+    let text = 'varibale1';
+    return function () {
+        return text;
+    };
+}
+
+let closure = getClosure();
+console.log(closure);
+console.log(closure())
+
+
+let base = 'hello';
+
+function sayHelloTo(name) {
+    let text = base + name;
+    return function () {
+        console.log(text);
+    };
+}
+
+let hello1 = sayHelloTo("승민");
+let hello2 = sayHelloTo("지미");
+let hello3 = sayHelloTo("재영");
+hello1();
+hello2();
+hello3();
+//result
+varibale1
+Hello, 승민
+Hello, 지미
+Hello, 재영
+
+```
+- 출력된 결과를 보면 text변수가 동적으로 변화하고 있는 것처럼 보인다. 실제로는 text라는 변수 자체가 여러번 생성된 것이다. 즉 hello1(), hello2(), hello3()은 서로다른 환경을 가지고 있다.
+
+### 클로저를 통한 은닉화
+
+
+### 객체비교
+
+```
+let a = 100;
+let b = 100;
+
+let objA = { value : 100};
+let objB = { value : 100};
+let objC = objB;
+
+console.log(a == b);
+console.log(objA == objB);
+console.log(objB == objC);
+// result
+true
+false
+true
+```
+- a,b를 비교할때는 기본값을 해서 값을 비교를한다.
+- objA와 objB는 같은 프로퍼티값을 가지고 있지만 다른 참조값을 가지기 때문이다.
+
+### 참조에 의한 함수 호출 방식
+
+- 기본타입의 경우 값에 의한 호출(Call by Value)방식으로 동작한다. 함수를 호출할 때 인자로 기본 타입의 값을 넘길 경우, 호출된 함수의 매개변수로 복사된 값이 전달된다. 때문에 함수 내부에서 매개변수를 이용해 값을 변경해도 실제로 호출된 변수의 값이 변경되지는 않는다.
+- 객체와 같은 참조타입의 경우 함수를 호출할 때 참조에 의한 호출(Call by Reference)방식으로 동작한다. 즉 함수를 호출할 때 인자로 참조 타입인 객체를 전달. 객체의 프로퍼티값이 함수의 매개변수로 복사되지 않고, 인자로 넘긴 객체의 참조값이 그대로 함수 내부로 전달된다. 때문에 함수 내부에서 참조값을 이용해서 인자로 넘긴 실제 객체의 값을 변경할 수 있다.
+
+```
+var a = 100;
+var objA = { value : 100};
+
+function changeArg(num, obj) {
+    num = 200;
+    obj.value = 200;
+
+    console.log(num);
+    console.log(obj.value);
+}
+
+changeArg(a, objA);
+
+console.log(a);
+console.log(objA);
+//result
+200
+200
+100
+{ value: 200 }
+```
+- 함수내부에서 매개변수 num과 obj를 이용해 인자로 전달된 a와 objA.val의 값을 100에서 200으로 변경했지만, 함수 호출이 끝난 후에는 참조타입 객체인 objA.value프로퍼티만이 실제값으로 변했다. 함수 내부에서 매개변수 num을 이용해서 100을 200으로 바꿔도 변수 a의 값은 변하지 않는다.
+
+
+### 프로토타입
+
+- JS에서는 부모객체를 프로토타입객체(프로토타입)이라고한다
+```
+const foo = {
+    name: 'foo',
+    age: 30
+};
+
+console.log(foo.toString());
+console.dir(foo);
+//result
+[object Object]
+{ name: 'foo', age: 30 }
+```
+- toString()메소드를 호출했을때 에러가 발생하지 않는 이유는 foo객체의 프로토타입에 toString()메서드가 이미 정의되어있기때문이다.
+- 모든 객체는 자신의 프로토타입을 가리키는 [[Prototype]]라는 숨겨진 프로퍼티를 가지고 있다.크롬브라우저에서는 \_\_proto__가 숨겨진 [[Prototype]]을 의미한다
+- 객체를 생성할 때 결정된 프로토타입 객체는 임의의 다른 객체로 변경하는 것도 가능하다
+
+
+### 유사배열객체
+
+- 일반객체에 length에 length라는 프로퍼티가 있으면 유사배열객체(array-like objects)라고 부른다.
+
+```
+let arr = ['bar'];
+let obj = { name : 'foo', length : 1};
+
+arr.push('baz');
+console.log(arr);
+
+Array.prototype.push.apply(obj, ['baz']);
+console.log(obj);
+//result
+[ 'bar', 'baz' ]
+{ '1': 'baz', name: 'foo', length: 2 }
+
+```
+
+- apply()메서드를 활용하면 객체지만 표준 배열 메서드를 활용하는 것이 가능하다
+
+
+### ==(동등)연산자 ===(일치)연산자
+
+- == 연산자는 비교하려는 피연산자의 타입이 다를 경우 타입변환을 거친다음 비교를 한다.
+- ===연산자는 피연산자의 타입이 다를 경우 타입을 변경하지 않고 비교한다.
+
+```
+console.log(1 == '1') // true
+console.log(1 === '1') // false
+```
