@@ -1,0 +1,190 @@
+---
+layout: post
+title: 2019-02-22 Node교과서 강의 - global, console
+---
+
+node강의
+=
+
+- node에서는 window객체를 못쓰고 global객체를 사용한다. 브라우저에서도 global객체를 사용할 수 있다.
+- window는 생략가능하기때문에 전역객체라서 window.setTimeout을 setTimeout으로만 해도된다. global역시 전역객체이기때문에 global.setTimeout을 setTimeout으로만 해도 된다.
+
+
+## global
+
+```
+//globalA.js
+module.exports = () => global.message;
+// global은 전역객체이기때문에 require를 안해도 된다.
+
+//globalB.js
+const A = require('./globalA');
+global.message = '안녕하세요';
+console.log(A());
+
+//result
+안녕하세요
+```
+- globalA.js에서는 globalB에서 선언한 global.message을 모듈로 내보낸다
+- global은 되도록 안사용하는것이 좋다.
+
+## console객체
+
+```
+const string = 'abc';
+const number = 1;
+const boolean = true;
+
+const obj = {
+    outside: {
+        indside: {
+            key: 'value',
+        },
+    },
+};
+
+console.time('전체 시간');
+console.log('평범한 로그입니다 쉼표로 구분해 여러 값을 찍을 수 있다');
+console.log(string, number, boolean);
+console.error('에러 메세지는 console.error에 담아주세요');
+
+console.dir(obj, { colors:false, depth: 2});
+console.dir(obj, { colors:true, depth: 1});
+// console.dir는 객체전용 로깅이고 두번째는 옵션이다. dir은 많이 사용한다
+
+function b() {
+    console.trace('에러 위치 추적');
+}
+
+function a() {
+    b();
+}
+a();
+
+
+console.timeEnd('전체 시간');
+
+/*
+console.time('인자');
+console.timeEnd('인자'):
+ 인자가 같아야 그 사이의 시간을 잽니다
+ */
+```
+- console.trace는 함수안에 어떤 경로를 거쳐서 함수가 호출이 되었는지를 알 수 있다. 많이 사용이 된다.
+
+
+## 타이머
+
+```
+const timeout = setTimeout(() => {
+    console.log('1.5초 마다 실행');
+}, 1500);
+
+const interval = setInterval(() => {
+    console.log('1초마다 실행');
+}, 1000);
+
+const timeout2 = setTimeout(() => {
+    console.log('실행되지않습니다');
+}, 3000);
+
+const im = setImmediate(() => console.log('즉시실행'));
+clearImmediate(im);
+
+setTimeout(() => {
+    clearTimeout(timeout2);
+    clearInterval(interval);
+}, 2500);
+//
+```
+- 즉시 실행되는 setImmediate 함수를 이벤트 루프로 보낼때 사용
+
+
+## __filename, __dirname, process
+
+- node에는 glboal과 같이 전역객체를 제공을 해주는것들이 있다. __filename, __dirname이 있다.
+- 현재 파일이 어디서 실행이 되는지. 현재 디렉토리가 어디에 있는지를 설명해준다
+- process객체는 현재 실행중인 노드 프로그램 정보가 들어있다.
+
+
+## 내장모듈(os모듈)
+
+- 모듈 : require로 불러올 수 있는것들
+- os모듈은 주로 데스크탑 모듈을 개발할 때 사용을 한다.
+- 노드는 멀티쓰레드가 아닌 멀티 프로세싱을 이용한다.
+
+## path
+
+- 정말 많이 쓰인다
+```
+const path = require('path');
+
+console.log(path.dirname(__filename));
+console.log(path.extname(__filename));
+console.log(path.basename(__filename));
+
+console.log(path.parse(__filename));
+
+
+console.log(path.format({ root: '/',
+    dir: '/Users/jaeyeonkim/Desktop/nodelecture',
+    base: 'path.js',
+    ext: '.js',
+    name: 'path' }
+))
+//result
+/Users/jaeyeonkim/Desktop/nodelecture
+.js
+path.js
+{ root: '/',
+  dir: '/Users/jaeyeonkim/Desktop/nodelecture',
+  base: 'path.js',
+  ext: '.js',
+  name: 'path' }
+/Users/jaeyeonkim/Desktop/nodelecture/path.js
+
+```
+
+## url모듈
+
+```
+const url = require('url');
+const URL = url.URL;
+const myURL = new URL('https://www.acmicpc.net/problem/4673');
+console.log('myURL() : ', myURL);
+console.log('url.format() : ', url.format(myURL));
+console.log('--------------------');
+const parseURL = url.parse('https://www.acmicpc.net/problem/4673');
+console.log('url.parse():', parseURL);
+
+
+//result
+myURL() :  URL {
+  href: 'https://www.acmicpc.net/problem/4673',
+  origin: 'https://www.acmicpc.net',
+  protocol: 'https:',
+  username: '',
+  password: '',
+  host: 'www.acmicpc.net',
+  hostname: 'www.acmicpc.net',
+  port: '',
+  pathname: '/problem/4673',
+  search: '',
+  searchParams: URLSearchParams {},
+  hash: '' }
+url.format() :  https://www.acmicpc.net/problem/4673
+--------------------
+url.parse(): Url {
+  protocol: 'https:',
+  slashes: true,
+  auth: null,
+  host: 'www.acmicpc.net',
+  port: null,
+  hostname: 'www.acmicpc.net',
+  hash: null,
+  search: null,
+  query: null,
+  pathname: '/problem/4673',
+  path: '/problem/4673',
+  href: 'https://www.acmicpc.net/problem/4673' }
+```
