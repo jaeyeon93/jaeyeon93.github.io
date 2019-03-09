@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 2019-03-10 Django CSS, Template
+title: 2019-03-10 Django Templtae
 ---
 
-Djnago Tutorial
-=
+Django Tutorial
+==
 
 ### CSS
 
