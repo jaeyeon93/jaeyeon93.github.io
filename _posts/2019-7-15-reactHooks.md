@@ -16,9 +16,11 @@ title: 2019-07-16 React Hooks
         }
     </script>
 ```
+
 - 선언과 동시에 초기화를 위와 같은 방식으로 한다.
 - React.useState(초기값);
 - hooks에서는 useRef라는 것으로 DOM에 접근을 한다.
+
 
 ```
 //Hooks
@@ -81,6 +83,7 @@ title: 2019-07-16 React Hooks
 </body>
 </html>
 ```
+
 - this.state가 빠졌다.
 - render()을 하면 함수자체가 통째로 다시 실행이 된다. 그래서 느릴수가 있다.
 - html속성에서 class를 사용할 수 있는데, 리액트에서는 속성으로 class를 못쓰고 className을 쓴다. label의 for속성도 for문으로 인식할 수 있기때문에 labelFor로 쓴다.
@@ -97,8 +100,10 @@ title: 2019-07-16 React Hooks
 ```
 npm i -D webpack webpack-cli
 ```
+
 - -D는 개발할때는 쓴다는 의미
 - package.json에 dependencies는 실제 서비스에 쓰이는것들, devDependencies는 개발에서만 쓰이는것들
+
 
 ```
 //webpack.config.js
