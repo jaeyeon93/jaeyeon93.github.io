@@ -1,3 +1,8 @@
+---
+layout: post
+title: 2020-4-25 스프링 Data common (8) 정리
+comments: true
+---
 # SpringData
 
 ![spring-data](/Users/jaeyeonkim/Desktop/spring-data.png)
